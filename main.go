@@ -1,4 +1,4 @@
-// Stark-Proxy: Sprint: 1, Tiket: 1.1 TCP Listener Initialization AND Tiket: 1.2 HTTP protocol parser
+// Stark-Proxy: Sprint: 1, Tiket: 1.1 TCP Listener Initialization ||AND|| Tiket: 1.2 HTTP protocol parser ||AND|| Tiket: 1.3
 
 package main
 
@@ -36,4 +36,12 @@ func handleConnection(conn net.Conn) {
 		return
 	}
 	fmt.Println("URl:", request.URL, "Header:", request.Header)
+
+	resp, err := http.DefaultClient.Do(request)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+	defer resp.Body.Close()
+	resp.Write(conn)
 }
