@@ -1,10 +1,12 @@
-// Stark-Proxy: Sprint: 1, Tiket: 1.1 TCP Listener Initialization
+// Stark-Proxy: Sprint: 1, Tiket: 1.1 TCP Listener Initialization AND Tiket: 1.2 HTTP protocol parser
 
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"net"
+	"net/http"
 )
 
 func main() {
@@ -27,13 +29,11 @@ func main() {
 
 func handleConnection(conn net.Conn) {
 	defer conn.Close()
-	for {
-		input := make([]byte, (1024 * 4))
-		n, err := conn.Read(input)
-		_ = n
-		if err != nil {
-			fmt.Println("Read error:", err)
-			return
-		}
+	reader := bufio.NewReader(conn)
+	request, err := http.ReadRequest(reader)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
 	}
+	fmt.Println("URl:", request.URL, "Header:", request.Header)
 }
