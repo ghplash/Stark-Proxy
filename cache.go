@@ -16,6 +16,13 @@ type CachePool struct {
 	List *DoubleLinkedList
 }
 
+func NewCachePool() *CachePool {
+	return &CachePool{
+		Data: make(map[string]*Node),
+		List: &DoubleLinkedList{},
+	}
+}
+
 func (D *DoubleLinkedList) PushFront(valye string) {
 	newNode := &Node{Valye: valye}
 	if D.Head == nil {
