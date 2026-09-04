@@ -1,4 +1,4 @@
-// Stark-Proxy: Sprint: 1, Tiket: 1.1 TCP Listener Initialization ||AND|| Tiket: 1.2 HTTP protocol parser ||AND|| Tiket: 1.3
+// Stark-Proxy. Sprint: 1, Tiket: 1.1 TCP Listener Initialization ||AND|| Tiket: 1.2 HTTP protocol parser ||AND|| Tiket: 1.3
 
 package main
 
@@ -7,7 +7,14 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"sync"
 )
+
+type CachePoll struct {
+	key    string
+	valye  []byte
+	muSyns sync.RWMutex
+}
 
 func main() {
 	listener, err := net.Listen("tcp", "localhost:8080")
@@ -45,3 +52,5 @@ func handleConnection(conn net.Conn) {
 	defer resp.Body.Close()
 	resp.Write(conn)
 }
+
+// Stark-Proxy. Sprint: 2, Tiket: 2.1 Thread-safe LRU memory manager
